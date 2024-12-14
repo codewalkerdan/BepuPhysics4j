@@ -11,6 +11,10 @@ buildscript {
 allprojects {
     version = '1.0'
 
+    ext {
+        slf4jVersion = '2.0.16'
+    }
+
     repositories {
         mavenLocal()
         mavenCentral()
@@ -26,6 +30,7 @@ project(":bepuphysics"){
     apply plugin: "java-library"
 
     dependencies {
+        api "org.slf4j:slf4j-api:$slf4jVersion"
         testImplementation platform('org.junit:junit-bom:5.10.0')
         testImplementation 'org.junit.jupiter:junit-jupiter'
     }

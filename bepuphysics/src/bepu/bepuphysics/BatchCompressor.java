@@ -1,4 +1,4 @@
-package org.bepu.bepuphysics;
+package bepu.bepuphysics;
 
 public class BatchCompressor {
 }
