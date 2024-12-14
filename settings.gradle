@@ -1,0 +1,3 @@
+rootProject.name = 'BepuPhysics4j'
+include 'bepuphysics'
+
