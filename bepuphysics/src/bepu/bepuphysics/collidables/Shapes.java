@@ -30,4 +30,6 @@ public class Shapes {
         //we have to allow storage of reference types.
         batches = new ShapeBatch[16];
     }
+
+
 }

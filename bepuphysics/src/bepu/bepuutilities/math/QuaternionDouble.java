@@ -58,7 +58,7 @@ public class QuaternionDouble {
      *
      * @return the result vector
      */
-    public Vector3Double transformWithoutOverlap(Vector3Double v, Vector3Double result){
+    public Vector3Double transformWithoutOverlap(final Vector3Double v, Vector3Double result){
         if(result == null) {
             result = new Vector3Double();
         }
@@ -88,6 +88,22 @@ public class QuaternionDouble {
         result.y = v.x * (xy2 + wz2) + v.y * (1.0 - xx2 - zz2) + v.z * (yz2 - wx2);
         result.z = v.x * (xz2 - wy2) + v.y * (yz2 + wx2) + v.z * (1.0 - xx2 - yy2);
 
+        return result;
+    }
+
+    public Vector3Double transform(final Vector3Double v, Vector3Double result){
+        return transformWithoutOverlap(v, result);
+    }
+
+    public QuaternionDouble concatenateWithoutOverlap(QuaternionDouble other, QuaternionDouble result){
+        if(result == null) {
+            result = new QuaternionDouble();
+        }
+
+        result.x = w * other.x + x * other.w + z * other.y - y * other.z;
+        result.y = w * other.y + y * other.w + x * other.z - z * other.x;
+        result.z = w * other.z + z * other.w + y * other.x - x * other.y;
+        result.w = w * other.w - x * other.x - y * other.y - z * other.z;
         return result;
     }
 

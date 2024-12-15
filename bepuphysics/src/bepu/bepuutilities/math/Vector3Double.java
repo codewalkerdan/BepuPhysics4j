@@ -44,4 +44,24 @@ public class Vector3Double {
         this.z -= other.z;
         return this;
     }
+
+    public double dot(Vector3Double other){
+        return x*other.x + y*other.y + z*other.z;
+    }
+
+    public static Vector3Double min(final Vector3Double a, final Vector3Double b, Vector3Double result){
+        if(result == null) {
+            result = new Vector3Double();
+        }
+
+    	return result.set(Math.min(a.x, b.x), Math.min(a.y, b.y), Math.min(a.z, b.z));
+    }
+
+    public static Vector3Double max(final Vector3Double a, final Vector3Double b, Vector3Double result){
+        if(result == null) {
+            result = new Vector3Double();
+        }
+
+    	return result.set(Math.max(a.x, b.x), Math.max(a.y, b.y), Math.max(a.z, b.z));
+    }
 }

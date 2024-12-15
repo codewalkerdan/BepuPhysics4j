@@ -1,7 +1,5 @@
 package bepu.bepuphysics.collidables;
 
-
-import bepu.bepuutilities.math.Vector3Double;
 import bepu.bepuutilities.memory.IdPool;
 
 import java.nio.ByteBuffer;
@@ -69,5 +67,5 @@ public abstract class ShapeBatch {
         removeAndDispose(index);
     }
 
-    public abstract void computeBounds(int shapeIndex, RigidPose pose, Vector3Double min, Vector3Double max);
+
 }

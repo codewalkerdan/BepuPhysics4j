@@ -33,7 +33,7 @@ public class RigidPose {
         return this;
     }
 
-    public RigidPose set(Vector3Double position, QuaternionDouble orientation) {
+    public RigidPose set(QuaternionDouble orientation, Vector3Double position) {
         this.orientation.set(orientation);
         this.position.set(position);
         return this;
@@ -74,7 +74,7 @@ public class RigidPose {
      *
      * @return The modified transformed vector
      */
-    public static Vector3Double transform(Vector3Double v, final RigidPose pose, Vector3Double result){
+    public static Vector3Double transform(final Vector3Double v, final RigidPose pose, Vector3Double result){
         Vector3Double rotated = Vector3Pool.getInstance().take();
         pose.orientation.transformWithoutOverlap(v, rotated);
         result.set(rotated).addLocal(pose.position);
@@ -91,7 +91,7 @@ public class RigidPose {
      *
      * @return The modified transformed vector.
      */
-    public static Vector3Double transformByInverse(Vector3Double v, final RigidPose pose, Vector3Double result){
+    public static Vector3Double transformByInverse(final Vector3Double v, final RigidPose pose, Vector3Double result){
         Vector3Double translated = Vector3Pool.getInstance().take();
         translated.set(v).subtractLocal(pose.position);
         QuaternionDouble inverted = QuaternionPool.getInstance().take();
@@ -102,5 +102,51 @@ public class RigidPose {
         return result;
     }
 
+    /**
+     * Inverts the rigid transformation of the pose.
+     *
+     * @param pose Pose to invert.
+     *
+     * @return Inverse of the pose.
+     */
+    public static RigidPose invert(final RigidPose pose, RigidPose result){
+        if(null == result){
+            result = new RigidPose(Vector3Double.ZERO);
+        }
 
+        pose.orientation.conjugate(result.orientation);
+        result.position.set(0, 0, 0).subtractLocal(pose.position);
+        result.orientation.transform(result.position, result.position);
+        return result;
+    }
+
+    /**
+     * Concatenates one rigid transform with another. The resulting transform is equivalent to performing transform a followed by transform b.
+     *
+     * @param a First transform to concatenate.
+     * @param b Second transform to concatenate.
+     * @param result Result of the concatenation.
+     *
+     * @return The result of the concatenation.
+     */
+    public static RigidPose MultiplyWithoutOverlap(final RigidPose a, final RigidPose b, RigidPose result){
+        if(null == result){
+            result = new RigidPose(Vector3Double.ZERO);
+        }
+
+        a.orientation.concatenateWithoutOverlap(b.orientation, result.orientation);
+        b.orientation.transform(a.position, result.position);
+        result.position.addLocal(b.position);
+        return result;
+    }
+
+    /**
+     * Returns a string representing the RigidPose as "Position, Orientation".
+     *
+     * @return String representing the RigidPose.
+     */
+    @Override
+    public String toString() {
+        return orientation + ", " + position;
+    }
 }
